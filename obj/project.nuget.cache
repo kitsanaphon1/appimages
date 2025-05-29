@@ -5,4 +5,6 @@
   "projectFilePath": "D:\\Devops tools\\Buildimages with github\\appimages\\WebAppProject.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\cholw\\.nuget\\packages\\restsharp\\112.1.0\\restsharp.112.1.0.nupkg.sha512"
-  ],
+  ],
+  "logs": []
+}
