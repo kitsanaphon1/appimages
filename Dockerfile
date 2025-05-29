@@ -1,21 +1,19 @@
-# ใช้ .NET 9 SDK เพื่อ build โค้ด
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /app
 
-# คัดลอกไฟล์และ restore dependencies
-COPY WebAppProject.csproj .
-RUN dotnet restore
+# คัดลอกไฟล์โปรเจกต์ก่อนเพื่อให้ dotnet restore แคชได้
+COPY WebAppProject.csproj . 
+RUN dotnet restore WebAppProject.csproj
 
-# คัดลอกไฟล์ทั้งหมดและ build
+# คัดลอกไฟล์ที่เหลือทั้งหมด
 COPY . .
-RUN dotnet publish -c Release -o out
 
-# ใช้ .NET 9 Runtime สำหรับรันแอป
+# build โดยระบุ project
+RUN dotnet publish WebAppProject.csproj -c Release -o out
+
+# Runtime stage (optional)
 FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS runtime
 WORKDIR /app
 COPY --from=build /app/out .
 
-# ระบุพอร์ตที่ต้องการ expose
-ENV ASPNETCORE_URLS=http://+:80
-EXPOSE 80
 ENTRYPOINT ["dotnet", "WebAppProject.dll"]
